@@ -1,3 +1,62 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* フォント */
+body {
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ボタン */
+button {
+  padding: 0.5rem 1rem;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4338ca;
+}
+
+/* 入力欄とボタンの配置 */
+input[type="file"],
+#download-button {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#download-button {
+  margin-left: 0.5rem;
+}
+
+/* キャンバス */
+.canvas_container {
+  margin-top: 1rem;
+}
+
+.channel_canvas {
+  border: 1px solid #ccc;
+  margin-right: 1rem;
+}
+
+/* レスポンシブデザイン */
+@media screen and (max-width: 600px) {
+  .canvas_container {
+    display: block;
+    margin-top: 2rem;
+  }
+
+  .channel_canvas {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}
