@@ -12,51 +12,50 @@ p {
   margin-bottom: 1rem;
 }
 
-/* ボタン */
-button {
-  padding: 0.5rem 1rem;
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #4338ca;
-}
-
-/* 入力欄とボタンの配置 */
-input[type="file"],
-#download-button {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-#download-button {
-  margin-left: 0.5rem;
-}
-
-/* キャンバス */
-.canvas_container {
-  margin-top: 1rem;
-}
-
+/* 縁取り */
+.canvas_container,
 .channel_canvas {
   border: 1px solid #ccc;
-  margin-right: 1rem;
 }
 
-/* レスポンシブデザイン */
-@media screen and (max-width: 600px) {
-  .canvas_container {
-    display: block;
-    margin-top: 2rem;
+/* サイズ縮小 */
+#input_canvas_container {
+  width: 30%;
+}
+
+.input_canvas,
+.channel_canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 境界線 */
+input,
+button,
+#canvas_container {
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+/* canvas の余白 */
+#canvas_container {
+  margin-top: 10px;
+}
+
+/* グリッド */
+#canvas_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  grid-auto-rows: 50%;
+  grid-gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .channel_canvas {
+    width: 90%;
   }
 
-  .channel_canvas {
-    margin-right: 0;
-    margin-bottom: 1rem;
+  #canvas_container {
+    display: block;
   }
 }

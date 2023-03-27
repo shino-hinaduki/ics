@@ -9,12 +9,6 @@
       onload="onOpenCvReady();"
       type="text/javascript"
     ></script>
-    <style>
-      .canvas_container {
-        margin-top: 10px;
-        display: inline-block;
-      }
-    </style>
     <link href="styles.css" rel="stylesheet" />
   </head>
   <body>
@@ -27,10 +21,8 @@
       <input type="file" id="file_input" />
       <button id="download-button">Download All Images</button>
     </div>
-    <div id="input_canvas_container" class="canvas_container">
-      <canvas id="input_canvas"></canvas>
-    </div>
-    <div id="canvas_container">
+    <div id="canvas_container" class="canvas_container">
+      <canvas id="input_canvas" class="channel_canvas"></canvas>
       <canvas id="canvas_0" class="channel_canvas"></canvas>
       <canvas id="canvas_1" class="channel_canvas"></canvas>
       <canvas id="canvas_2" class="channel_canvas"></canvas>
