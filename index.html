@@ -19,10 +19,13 @@
   <body>
     <h2>Image Channels Separation</h2>
     <p>
-      Drag and drop an image file onto the page to display the separated
-      channels.
+      Drag and drop an image file onto the page or select a file using the input
+      field to display the separated channels.
     </p>
-    <input type="file" id="file_input" accept="image/*" />
+    <div>
+      <input type="file" id="file_input" />
+      <button id="download-button">Download All Images</button>
+    </div>
     <div id="input_canvas_container" class="canvas_container">
       <canvas id="input_canvas"></canvas>
     </div>
@@ -34,10 +37,11 @@
     </div>
     <script type="text/javascript">
       let imgElement = document.createElement("img");
-      let inputElement = document.getElementById("file_input");
+      let downloadButton = document.getElementById("download-button");
       let inputCanvas = document.getElementById("input_canvas");
       let inputCtx = inputCanvas.getContext("2d");
       let channelCanvases = [];
+      let fileName = "filename";
 
       function onOpenCvReady() {
         // Enable drag and drop
@@ -45,8 +49,17 @@
           event.preventDefault();
         };
 
-        inputElement.onchange = () => {
-          imgElement.src = URL.createObjectURL(inputElement.files[0]);
+        // Load the image when a file is dropped
+        inputCanvas.ondrop = (event) => {
+          event.preventDefault();
+          imgElement.src = URL.createObjectURL(event.dataTransfer.files[0]);
+          fileName = event.dataTransfer.files[0].name;
+        };
+
+        // Load the image when a file is selected
+        document.getElementById("file_input").onchange = (event) => {
+          imgElement.src = URL.createObjectURL(event.target.files[0]);
+          fileName = event.target.files[0].name;
         };
 
         imgElement.onload = () => {
@@ -75,6 +88,26 @@
           // Free memory
           mat.delete();
           channels.delete();
+        };
+
+        function downloadAll() {
+          for (var i = 0; i < 4; i++) {
+            var canvas = document.getElementById("canvas_" + i);
+            var dataUrl = canvas
+              .toDataURL("image/png")
+              .replace(/^data:image\/[^;]/, "data:application/octet-stream");
+            var link = document.createElement("a");
+            link.setAttribute("download", `${fileName.split(".")[0]}_${i}.png`);
+            link.setAttribute("href", dataUrl);
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+        }
+
+        downloadButton.onclick = () => {
+          downloadAll();
         };
       }
     </script>
