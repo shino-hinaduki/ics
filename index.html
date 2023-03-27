@@ -22,7 +22,6 @@
       Drag and drop an image file onto the page to display the separated
       channels.
     </p>
-    <input type="file" id="file_input" accept="image/*" />
     <div id="input_canvas_container" class="canvas_container">
       <canvas id="input_canvas"></canvas>
     </div>
@@ -34,7 +33,6 @@
     </div>
     <script type="text/javascript">
       let imgElement = document.createElement("img");
-      let inputElement = document.getElementById("file_input");
       let inputCanvas = document.getElementById("input_canvas");
       let inputCtx = inputCanvas.getContext("2d");
       let channelCanvases = [];
@@ -45,8 +43,10 @@
           event.preventDefault();
         };
 
-        inputElement.onchange = () => {
-          imgElement.src = URL.createObjectURL(inputElement.files[0]);
+        // Load the image when a file is dropped
+        inputCanvas.ondrop = (event) => {
+          event.preventDefault();
+          imgElement.src = URL.createObjectURL(event.dataTransfer.files[0]);
         };
 
         imgElement.onload = () => {
