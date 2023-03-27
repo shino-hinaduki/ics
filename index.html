@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenCV.js Demo: Image Channels Separation</title>
+    <meta charset="utf-8" />
+    <script
+      async
+      src="https://docs.opencv.org/master/opencv.js"
+      onload="onOpenCvReady();"
+      type="text/javascript"
+    ></script>
+    <style>
+      .canvas_container {
+        margin-top: 10px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Image Channels Separation</h2>
+    <p>
+      Drag and drop an image file onto the page to display the separated
+      channels.
+    </p>
+    <input type="file" id="file_input" accept="image/*" />
+    <div id="input_canvas_container" class="canvas_container">
+      <canvas id="input_canvas"></canvas>
+    </div>
+    <div id="canvas_container">
+      <canvas id="canvas_0" class="channel_canvas"></canvas>
+      <canvas id="canvas_1" class="channel_canvas"></canvas>
+      <canvas id="canvas_2" class="channel_canvas"></canvas>
+      <canvas id="canvas_3" class="channel_canvas"></canvas>
+    </div>
+    <script type="text/javascript">
+      let imgElement = document.createElement("img");
+      let inputElement = document.getElementById("file_input");
+      let inputCanvas = document.getElementById("input_canvas");
+      let inputCtx = inputCanvas.getContext("2d");
+      let channelCanvases = [];
+
+      function onOpenCvReady() {
+        // Enable drag and drop
+        document.ondragover = document.ondrop = (event) => {
+          event.preventDefault();
+        };
+
+        inputElement.onchange = () => {
+          imgElement.src = URL.createObjectURL(inputElement.files[0]);
+        };
+
+        imgElement.onload = () => {
+          // Draw the input image on the canvas
+          inputCanvas.width = imgElement.width;
+          inputCanvas.height = imgElement.height;
+          inputCtx.drawImage(imgElement, 0, 0);
+
+          // Convert the canvas to a Mat
+          let mat = cv.imread(inputCanvas);
+
+          // Split the channels
+          let channels = new cv.MatVector();
+          cv.split(mat, channels);
+
+          // Create a canvas for each channel and display the separated channels
+          for (let i = 0; i < channels.size(); i++) {
+            let channelCanvas = document.getElementById("canvas_" + i);
+            let channelCtx = channelCanvas.getContext("2d");
+            channelCanvas.width = mat.cols;
+            channelCanvas.height = mat.rows;
+            cv.imshow(channelCanvas.id, channels.get(i));
+            channelCanvases.push(channelCanvas);
+          }
+
+          // Free memory
+          mat.delete();
+          channels.delete();
+        };
+      }
+    </script>
+  </body>
+</html>
